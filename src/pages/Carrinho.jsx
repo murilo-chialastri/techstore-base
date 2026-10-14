@@ -20,6 +20,11 @@ export default function Carrinho({ carrinho, produtos, clienteAtual, onAdicionar
 
   function aplicarCupom(evento) {
     evento.preventDefault()
+
+    if (cupomAplicado) {
+      return
+    }
+
     const resultado = validarCupom(codigoCupom, clienteAtual)
 
     if (resultado.valido) {
@@ -81,8 +86,11 @@ export default function Carrinho({ carrinho, produtos, clienteAtual, onAdicionar
                 value={codigoCupom}
                 onChange={(evento) => setCodigoCupom(evento.target.value)}
                 placeholder="Digite o código"
+                disabled={cupomAplicado !== null}
               />
-              <button className="botao botao-secundario">Aplicar</button>
+              <button className="botao botao-secundario" disabled={cupomAplicado !== null}>
+                {cupomAplicado ? 'Cupom aplicado' : 'Aplicar'}
+              </button>
             </div>
             {mensagemCupom && <p className="mensagem-cupom">{mensagemCupom}</p>}
           </form>
