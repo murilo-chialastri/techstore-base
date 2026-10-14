@@ -3,7 +3,7 @@ import ProdutoCard from '../components/ProdutoCard'
 
 export default function PaginaProduto({ produtos, onAdicionar }) {
   const { id } = useParams()
-  const produto = produtos.find((item) => item.id === id)
+  const produto = produtos.find((item) => String(item.id) === id)
 
   if (!produto) {
     return (
@@ -17,7 +17,12 @@ export default function PaginaProduto({ produtos, onAdicionar }) {
   }
 
   const relacionados = produtos
-    .filter((item) => item.category === produto.category && item.id !== produto.id)
+    .filter(
+      (item) =>
+        item.category === produto.category &&
+        String(item.id) !== String(produto.id) &&
+        item.estoque > 0
+    )
     .slice(0, 4)
 
   return (
