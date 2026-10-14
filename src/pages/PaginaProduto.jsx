@@ -23,7 +23,8 @@ export default function PaginaProduto({ produtos, onAdicionar }) {
       (item) =>
         item.category === produto.category &&
         String(item.id) !== String(produto.id) &&
-        item.estoque > 0
+        item.estoque > 0 &&
+        Number.isFinite(Number(item.price))
     )
     .slice(0, 4)
 
