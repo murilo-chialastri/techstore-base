@@ -1,9 +1,11 @@
 import { Link, useParams } from 'react-router'
 import ProdutoCard from '../components/ProdutoCard'
+import { formatarPreco } from '../utils/formatarPreco'
 
 export default function PaginaProduto({ produtos, onAdicionar }) {
   const { id } = useParams()
   const produto = produtos.find((item) => String(item.id) === id)
+  const temPreco = Number.isFinite(Number(produto?.price))
 
   if (!produto) {
     return (
@@ -43,16 +45,18 @@ export default function PaginaProduto({ produtos, onAdicionar }) {
           <p className="card-avaliacao">
             ★ {produto.rating.rate} <span>({produto.rating.count} avaliações)</span>
           </p>
-          <p className="detalhe-preco">R$ {produto.price.toFixed(2).replace('.', ',')}</p>
+          <p className="detalhe-preco">
+            {temPreco ? formatarPreco(produto.price) : 'Preço indisponível'}
+          </p>
           <p className="detalhe-descricao">{produto.description}</p>
           <p className="detalhe-estoque">{produto.estoque} unidades disponíveis</p>
 
           <button
             className="botao botao-grande"
             onClick={() => onAdicionar(produto)}
-            disabled={produto.estoque === 0}
+            disabled={produto.estoque === 0 || !temPreco}
           >
-            Adicionar ao carrinho
+            {temPreco ? 'Adicionar ao carrinho' : 'Produto indisponível'}
           </button>
 
           <ul className="detalhe-garantias">
