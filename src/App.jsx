@@ -31,21 +31,27 @@ export default function App() {
   }, [])
 
   function adicionarAoCarrinho(produto) {
-    setCarrinho(carrinho.concat(produto))
+    if (!Number.isFinite(Number(produto.price))) {
+      return
+    }
+
+    setCarrinho((atual) => atual.concat(produto))
   }
 
   function removerUmaUnidade(produtoId) {
     // Remove só a primeira unidade encontrada do produto
-    let removido = false
-    setCarrinho(
-      carrinho.filter((produto) => {
+    setCarrinho((atual) => {
+      let removido = false
+
+      return atual.filter((produto) => {
         if (!removido && produto.id === produtoId) {
           removido = true
           return false
         }
+
         return true
       })
-    )
+    })
   }
 
   const clienteAtual = clientes.find((cliente) => cliente.id === clienteAtualId)
