@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { formatarPreco } from '../utils/formatarPreco'
 
-export default function ProdutoCard({ produto, onAdicionar }) {
+export default function ProdutoCard({ produto, onAdicionar, botaoTexto = 'Adicionar ao carrinho' }) {
   const esgotado = produto.estoque === 0
 
   return (
@@ -30,7 +30,7 @@ export default function ProdutoCard({ produto, onAdicionar }) {
       </div>
 
       <button className="botao" onClick={() => onAdicionar(produto)} disabled={esgotado}>
-        Adicionar ao carrinho
+        {botaoTexto}
       </button>
     </article>
   )
